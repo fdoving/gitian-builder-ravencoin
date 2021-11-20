@@ -2,6 +2,7 @@
 
 # Copyright (c) 2016 The Bitcoin Core developers
 # Copyright (c) 2021 The Dogecoin Core developers
+# Copyright (c) 2021 fdov - fd21@pm.me Ravencoin Core developer.
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -18,7 +19,7 @@ SIGN_DESCRIPTORS=('win-signed' 'osx-signed')
 # What to do
 sign=false
 verify=false
-build=false
+build=true
 commit=false
 push=false
 test=false
@@ -26,9 +27,9 @@ test=false
 # Other Basic variables
 SIGNER=
 VERSION=
-url=https://github.com/dogecoin/dogecoin
-proc=2
-mem=2000
+url=https://github.com/fdoving/Ravencoin
+proc=14
+mem=10000
 scriptName=$(basename -- "$0")
 dirName=$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
 commitFiles=true
@@ -38,13 +39,13 @@ commitFiles=true
 ######################
 read -r -d '' usage <<-EOF
 Usage: $scriptName [-c|u|v|b|s|B|o|h|j|m|] signer version
-Run this script from the directory containing the dogecoin, gitian-builder, gitian.sigs, and dogecoin-detached-sigs.
+Run this script from the directory containing the Ravencoin, gitian-builder, gitian.sigs, and ravencoin-detached-sigs.
 Arguments:
 signer          GPG signer to sign each build assert file
 version		      Version number, commit, or branch to build. If building a commit or branch, the -c option must be specified
 Options:
 -c|--commit	    Indicate that the version argument is for a commit or branch
--u|--url	      Specify the URL of the repository. Default is https://github.com/dogecoin/dogecoin
+-u|--url	      Specify the URL of the repository. Default is https://github.com/RavenProject/Ravencoin
 -v|--verify 	  Verify the gitian build
 -b|--build	    Do a gitian build
 -s|--sign       Signed build
@@ -108,7 +109,7 @@ while :; do
         SIGN_DESCRIPTORS+=('win-signed')
       fi
       if [[ "$2" == *"x"* ]]; then
-        if [[ ! -e "gitian-builder/inputs/MacOSX10.11.sdk.tar.gz" && $build == true ]]; then
+        if [[ ! -e "gitian-builder/inputs/Xcode-11.3.1-11C505-extracted-SDK-with-libcxx-headers.tar.gz" && $build == true ]]; then
           echo "Cannot build for OSX, SDK does not exist. Will build for other OSes"
         else
           DESCRIPTORS+=('osx')
@@ -188,7 +189,7 @@ if [[ $test == true ]]; then
   if [[ $commit == true ]]; then
     VERSION="f80bfe9068ac1a0619d48dad0d268894d926941e"
   else
-    VERSION="1.14.3"
+    VERSION="4.7.0"
   fi
   DESCRIPTORS=('test')
   SIGN_DESCRIPTORS=()
@@ -256,9 +257,9 @@ fi
 ######## SETUP ########
 #######################
 if [[ $setup == true ]]; then
-  git clone https://github.com/dogecoin/gitian.sigs.git
-  git clone https://github.com/dogecoin/dogecoin-detached-sigs.git
-  git clone https://github.com/devrandom/gitian-builder
+#  git clone https://github.com/RavenProject/gitian.sigs.git
+#  git clone https://github.com/RavenProject/Ravencoin-detached-sigs.git
+   git clone https://github.com/devrandom/gitian-builder
 
   pushd gitian-builder || exit 1
 
@@ -266,7 +267,7 @@ if [[ $setup == true ]]; then
   git reset --hard FETCH_HEAD
   git am < "$dirName"/patches/0001-Docker-apt-cacher.patch
 
-   ./bin/make-base-vm --docker --arch amd64 --suite trusty || exit 1
+   ./bin/make-base-vm --docker --arch amd64 --suite bionic || exit 1
   "$dirName"/setup/dependencies.sh || exit 1
 
   popd  || exit 1
@@ -275,7 +276,7 @@ if [[ $setup == true ]]; then
 fi
 
 function move_build_files() {
-  find build/out -type f -exec mv '{}' ../dogecoin-binaries/${VERSION}/ \;
+  find build/out -type f -exec mv '{}' ../ravencoin-binaries/${VERSION}/ \;
 }
 
 function download_descriptor() {
@@ -317,21 +318,21 @@ popd
 if [[ $build == true ]]; then
 
   # Make output folder
-  mkdir -p ./dogecoin-binaries/"$VERSION"
+  mkdir -p ./ravencoin-binaries/"$VERSION"
 
   pushd ./gitian-builder || exit 1
 
-  # CLEAN dogecoin git directory because of old caching
-  if [[ -d inputs/dogecoin/ ]]; then
-    echo "Cleaning Dogecoin directory..."
-    rm -rf inputs/dogecoin/
+  # CLEAN ravencoin git directory because of old caching
+  if [[ -d inputs/Ravencoin/ ]]; then
+    echo "Cleaning Ravencoin directory..."
+    rm -rf inputs/Ravencoin/
   fi
 
   for descriptor in "${DESCRIPTORS[@]}"; do
     echo ""
     echo "Compiling ${VERSION} ${descriptor}"
     echo ""
-    ./bin/gbuild -j "$proc" -m "$mem" --commit dogecoin="$COMMIT" --url dogecoin="$url" ../gitian-descriptors/gitian-"$descriptor".yml  || exit 1
+    ./bin/gbuild -j "$proc" -m "$mem" --commit Ravencoin="$COMMIT" --url Ravencoin="$url" ../gitian-descriptors/gitian-"$descriptor".yml  || exit 1
     move_build_files
   done
 
@@ -410,18 +411,18 @@ fi
 ####### DISPLAY #######
 #######################
 if [[ -n "$VERSION" ]]; then
-  pushd dogecoin-binaries/"$VERSION" || exit 1
+  pushd ravencoin-binaries/"$VERSION" || exit 1
 
   echo "$VERSION"
-  sha256sum dogecoin-*
+  sha256sum ravencoin-*
 
   popd  || exit 1
 fi
 
 if [[ $test == true ]]; then
-  pushd dogecoin-binaries/"$VERSION" || exit 1
+  pushd ravencoin-binaries/"$VERSION" || exit 1
 
-  filename="dogecoin-1.14.3.tar.gz"
+  filename="ravencoin-4.7.0.tar.gz"
   echo "$SHA256SUM $filename" | sha256sum -c || { echo "Signature for $filename don't match"; exit 1; }
 
   popd  || exit 1

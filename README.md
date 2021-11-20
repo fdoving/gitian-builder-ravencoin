@@ -1,14 +1,14 @@
 <h1 align="center">
-Dogecoin Core [DOGE, Ð]  
+Ravencoin Core [DOGE, Ð]  
 <br/><br/>
-<img src="https://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png" alt="Dogecoin" width="300"/>
+<img src="https://ravencoin.org/assets/img/media/logo-wide-sm-white.png" alt="Ravencoin" width="300"/>
 </h1>
 
 # Gitian building
 
-Setup instructions for a Gitian build of Dogecoin Core using a Docker.
+Setup instructions for a Gitian build of Ravencoin Core using a Docker.
 
-Gitian is the deterministic build process that is used to build the Dogecoin Core executables. It provides a way to be reasonably sure that the executables are really built from the source on GitHub. It also makes sure that the same, tested dependencies are used and statically built into the executable.
+Gitian is the deterministic build process that is used to build the Ravencoin Core executables. It provides a way to be reasonably sure that the executables are really built from the source on GitHub. It also makes sure that the same, tested dependencies are used and statically built into the executable.
 
 Multiple developers build the source code by following a specific descriptor ("recipe"), cryptographically sign the result, and upload the resulting signature. These results are compared and only if they match, the build is accepted and uploaded to dogecoin.com.
 
@@ -56,7 +56,7 @@ More independent Gitian builders are needed, which is why this guide exists. It 
 ## VERSION vs COMMIT
   For release version: omit `v` 
 
-    ./gitian-build.sh -j <jobs> -m <mem> --build <signer_name:required> 1.14.3
+    ./gitian-build.sh -j <jobs> -m <mem> --build <signer_name:required> 4.7.0
 
   For commit or branch: use `--commit`
     
@@ -74,13 +74,13 @@ More independent Gitian builders are needed, which is why this guide exists. It 
 ## Examples:
     ./gitian-build.sh --setup
     
-    ./gitian-build.sh -j 8 -m 8192 -u https://github.com/micaelmalta/dogecoin --build mmicael 1.14.3
+    ./gitian-build.sh -j 8 -m 8192 -u https://github.com/fdoving/Ravencoin --build fdoving develop
 
-    ./gitian-build.sh -j 8 -m 8192 --build mmicael 1.14.3
+    ./gitian-build.sh -j 8 -m 8192 --build fdoving 4.7.0test3
 
     or
 
-    ./gitian-build.sh -j 8 -m 8192 --commit --build mmicael 1.14.4-dev
+    ./gitian-build.sh -j 8 -m 8192 --commit --build fdoving develop
 
     ./gitian-build.sh --push
 
@@ -90,13 +90,13 @@ The purpose of this is to be able to check that builds work with GITIAN using CI
 
 ### HOW TO DO A GITIAN BUILD
 
-    1/ Fork repo: https://github.com/micaelmalta/gitian-builder-dogecoin
+    1/ Fork repo: https://github.com/fdoving/gitian-builder-ravencoin
     2/ git clone <your_repo>
     3/ git checkout -b build_<whatever> # IMPORTANT PART AS GITIAN BUILD ARE ONLY BUILD ON build_* branches
     4/ vim .cirrus.yml
     5/ Change those 2 values:
-        URL: https://github.com/mmicael/dogecoin
-        BRANCH: 1.14.4-libevent
+        URL: https://github.com/fdoving/Ravencoin
+        BRANCH: develop
     6/ git commit -m "whatever"
     7/ git push --set-upstream origin <your_branch>
     8/ Wait 45mn!
@@ -126,10 +126,11 @@ You can also launch this command on your terminal to have the list
 
 ## License
 
-Dogecoin Core is released under the terms of the MIT license. See COPYING for more information or see https://opensource.org/licenses/MIT.
+Ravencoin Core is released under the terms of the MIT license. See COPYING for more information or see https://opensource.org/licenses/MIT.
 
 ## OTHER CREDITS
 
-https://github.com/patricklodder
+Forked from: https://github.com/micaelmalta/gitian-builder-dogecoin
 
+https://github.com/patricklodder
 https://gist.github.com/patricklodder/88d6c4e3406db840963f85d95ceb44fe
