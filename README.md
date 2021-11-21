@@ -74,7 +74,7 @@ More independent Gitian builders are needed, which is why this guide exists. It 
 ## Examples:
     ./gitian-build.sh --setup
     
-    ./gitian-build.sh -j 8 -m 8192 -u https://github.com/fdoving/Ravencoin --build fdoving develop
+    ./gitian-build.sh -j 8 -m 8192 -u https://github.com/fdoving/Ravencoin --build --commit fdoving fdov-gitian
 
     ./gitian-build.sh -j 8 -m 8192 --build fdoving 4.7.0test3
 
