@@ -73,8 +73,19 @@ More independent Gitian builders are needed, which is why this guide exists. It 
 
 ## Examples:
     ./gitian-build.sh --setup  (only the fist time)
-    
+  
+   This is where you copy the OSX SDK into the sub-directory `gitian-builder/inputs/`
+   
+   To get the SDK follow [Bitcoins 0.21 instructions](https://github.com/bitcoin/bitcoin/tree/0.21/contrib/macdeploy)
+  
+   To build linux, windows and osx:
+   
     ./gitian-build.sh -j 8 -m 8192 -u https://github.com/fdoving/Ravencoin --build --commit fdoving fdov-gitian
+    
+   To build linux and windows:
+   
+    ./gitian-build.sh -j 8 -m 8192 -u https://github.com/fdoving/Ravencoin --build --commit -o lw fdoving fdov-gitian
+    
 
 ## TROUBLESHOOT
     
