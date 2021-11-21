@@ -1,0 +1,12 @@
+diff --git a/bin/make-base-vm b/bin/make-base-vm
+index 30e4fbf..6ba4a97 100755
+--- a/bin/make-base-vm
++++ b/bin/make-base-vm
+@@ -198,7 +198,6 @@ if [ $DOCKER = "1" ]; then
+ FROM $base_image
+ 
+ ENV DEBIAN_FRONTEND=noninteractive
+-RUN echo 'Acquire::http { Proxy "$MIRROR_BASE"; };' > /etc/apt/apt.conf.d/50cacher
+ RUN apt-get update && apt-get --no-install-recommends -y install $addpkg
+ 
+ RUN useradd -ms /bin/bash -U $DISTRO

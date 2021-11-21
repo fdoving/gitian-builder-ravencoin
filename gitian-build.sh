@@ -265,7 +265,7 @@ if [[ $setup == true ]]; then
 
   git fetch origin 9e97a4d5038cd61215f5243a37c06fa1734a276e # LAST VERSION TESTED
   git reset --hard FETCH_HEAD
-  git am < "$dirName"/patches/0001-Docker-apt-cacher.patch
+  git apply "$dirName"/patches/0002-no-cache.patch
 
    ./bin/make-base-vm --docker --arch amd64 --suite bionic || exit 1
   "$dirName"/setup/dependencies.sh || exit 1
