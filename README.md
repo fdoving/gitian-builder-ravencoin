@@ -1,5 +1,5 @@
 <h1 align="center">
-Ravencoin Core [DOGE, Ð]  
+Ravencoin Core [RVN]  
 <br/><br/>
 <img src="https://ravencoin.org/assets/img/media/logo-wide-sm-white.png" alt="Ravencoin" width="300"/>
 </h1>
