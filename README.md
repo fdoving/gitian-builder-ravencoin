@@ -72,35 +72,9 @@ More independent Gitian builders are needed, which is why this guide exists. It 
     ./gitian-build.sh --help
 
 ## Examples:
-    ./gitian-build.sh --setup
+    ./gitian-build.sh --setup  (only the fist time)
     
     ./gitian-build.sh -j 8 -m 8192 -u https://github.com/fdoving/Ravencoin --build --commit fdoving fdov-gitian
-
-    ./gitian-build.sh -j 8 -m 8192 --build fdoving 4.7.0test3
-
-    or
-
-    ./gitian-build.sh -j 8 -m 8192 --commit --build fdoving develop
-
-    ./gitian-build.sh --push
-
-## CI TESTING
-
-The purpose of this is to be able to check that builds work with GITIAN using CIRRUS: https://github.com/marketplace/cirrus-ci
-
-### HOW TO DO A GITIAN BUILD
-
-    1/ Fork repo: https://github.com/fdoving/gitian-builder-ravencoin
-    2/ git clone <your_repo>
-    3/ git checkout -b build_<whatever> # IMPORTANT PART AS GITIAN BUILD ARE ONLY BUILD ON build_* branches
-    4/ vim .cirrus.yml
-    5/ Change those 2 values:
-        URL: https://github.com/fdoving/Ravencoin
-        BRANCH: develop
-    6/ git commit -m "whatever"
-    7/ git push --set-upstream origin <your_branch>
-    8/ Wait 45mn!
-    9/ ENJOY!
 
 ## TROUBLESHOOT
     
